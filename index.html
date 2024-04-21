@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Random Quote Generator</h1>
+        <button v-on:click="fetchQuote">Get New Quote</button>
+        <div class="quote-container">
+            <p class="quote">{{ quoteText }}</p>
+            <p class="author">— {{ quoteAuthor }}</p>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                quoteText: '',
+                quoteAuthor: ''
+            },
+            methods: {
+                fetchQuote: function() {
+                    fetch('https://dummyjson.com/quotes/random')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.quoteText = data.quote;
+                            this.quoteAuthor = data.author;
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            },
+            mounted() {
+                this.fetchQuote(); 
+            }
+        });
+
+    </script>
+</body>
+</html>
